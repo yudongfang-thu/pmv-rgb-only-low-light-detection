@@ -1,0 +1,225 @@
+# Experiment configuration schema (PMV, main recipe HSV).
+# This is a schema example, not a runnable config: the frozen_inputs/contract paths and
+# their SHA256 values must be produced for your own copy of the data (see docs/data.md
+# and docs/portability.md). The exact paper run used the frozen campaign artifacts.
+ultralytics_version: 8.4.115
+torch_version: 2.10.0+cu128
+imgsz: 640
+epochs: 200
+batch: 32
+nbs: 64
+workers: 4
+seed: 42
+optimizer: SGD
+lr0: 0.01
+lrf: 0.01
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+cos_lr: false
+close_mosaic: 0
+patience: 0
+amp: true
+deterministic: true
+teacher_cache_images: 64
+log_every_batches: 100
+actual_budget_seconds: null
+periodic_eval_every: 5
+loader_policy: epoch_deterministic_v1
+checkpoint_export_dtype: float32
+augmentation:
+  mosaic: 0.0
+  mixup: 0.0
+  cutmix: 0.0
+  copy_paste: 0.0
+  degrees: 0.0
+  shear: 0.0
+  perspective: 0.0
+  translate: 0.1
+  scale: 0.5
+  fliplr: 0.5
+  flipud: 0.0
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+  erasing: 0.0
+  bgr: 0.0
+method_id: XMODAL94-20261015-night_MV_H_s42
+method_variant: MV_H
+campaign_arm: MV_H
+input_mode: rgb
+arm: MV_H
+run_identity: night_MV_H_s42
+subset: night
+campaign: drone_union_3arm_20261010
+dataset: dronevehicle
+model_scale: n
+model_architecture: yolo11n
+execution_version: xm_hsv2_94_r1
+source: xm_hsv2_hsv_on_mosaic_off_94
+teacher: null
+reference: null
+rgb_target_teacher: null
+teacher_sha256: null
+calibration_receipt: null
+evidence_dependencies: []
+target_source: privileged_view_self
+classification_coefficient: 0
+localization_coefficient: 0
+model: weights/yolo11n.pt
+model_sha256: 0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1
+data_mode: union
+paths:
+  student_data_yaml: data/night_union/rgb_union.data.yaml
+  privileged_data_yaml: data/night_union/ir_union.data.yaml
+  paired_train_mapping: data/contract/rgb_to_infrared_train.json
+data_contract: data/contract/data_contract_94.json
+data_contract_sha256: <sha256>
+population: data/contract/population_94.json
+population_sha256: <sha256>
+expected_train_images: 11200
+expected_val_images: 862
+expected_train_batches: 350
+expected_val_gt: 15480
+evaluation_contract:
+  endpoint: fixed_E200_last_fp32_ema
+  epoch: 200
+  split: val
+  primary_subset: night
+  primary_gt: union
+  secondary_gt: rgb
+  expected_val_images: 862
+  expected_val_gt: 15480
+  metric_units: fraction_0_to_1
+  difference_units: percentage_points
+  diagnostic_every_epochs: 5
+  fn_fp_conf: 0.25
+  fn_fp_iou: 0.5
+frozen_inputs:
+- path: data/night_union/rgb_union.data.yaml
+  sha256: <sha256>
+- path: data/night_union/ir_union.data.yaml
+  sha256: <sha256>
+- path: data/night_union/rgb_train.txt
+  sha256: <sha256>
+- path: data/night_union/rgb_val.txt
+  sha256: <sha256>
+- path: data/night_union/ir_train.txt
+  sha256: <sha256>
+- path: data/night_union/ir_val.txt
+  sha256: <sha256>
+- path: data/contract/data_contract.json
+  sha256: <sha256>
+- path: data/contract/population.json
+  sha256: <sha256>
+- path: data/contract/native_train_manifest.csv
+  sha256: <sha256>
+- path: data/contract/native_val_manifest.csv
+  sha256: <sha256>
+- path: data/contract/scene_manifest.csv
+  sha256: <sha256>
+- path: data/contract/SCENES_FROZEN.json
+  sha256: <sha256>
+- path: data/contract/acceptance_receipt.json
+  sha256: <sha256>
+- path: data/contract/rgb_to_infrared_train.json
+  sha256: <sha256>
+- path: data/contract/data_contract_94.json
+  sha256: <sha256>
+- path: data/contract/population_94.json
+  sha256: <sha256>
+- path: weights/yolo11n.pt
+  sha256: 0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1
+- path: data/artifacts/xmodal94_20261013/contract/authorization_xm_hsv2_20261015.json
+  sha256: <sha256>
+- path: data/artifacts/xmodal94_20261013/contract/model_policy_receipt_xm_hsv2.json
+  sha256: <sha256>
+model_policy_receipt: data/artifacts/xmodal94_20261013/contract/model_policy_receipt_xm_hsv2.json
+model_policy_receipt_sha256: <sha256>
+formal_training_authorized: true
+authorization_source:
+  path: data/artifacts/xmodal94_20261013/contract/authorization_xm_hsv2_20261015.json
+  sha256: <sha256>
+engineering_receipt: data/artifacts/xmodal94_20261013/engineering/xm_hsv2_r1_engineering.json
+port90:
+  status: READY
+  note: 'xmodal94 xm_hsv2_r1: RandomHSV on (ultralytics default gains), Mosaic off;
+    otherwise the RGBU_HSV recipe'
+evaluation_role: primary_union_secondary_rgb
+protocol_status: three_arm_native_matrix
+pvc_contract:
+  version: pvc_v1.2_xm_hsv2_r1
+  deployed_view: rgb
+  deployed_architecture: yolo11n_unchanged
+  privileged_view: pixelmean_(img+strong_img)*0.5_same_replayed_geometry
+  shuffled_view: strong_img.roll(1, dim=0)_wrong_pair_within_batch
+  bn_running_statistics: rgb_view_only_restored_after_privileged_forward
+  privileged_native: native_union_TAL_loss_on_privileged_view
+  privileged_native_weight: 0.5
+  kd: dense_all_anchors_all_5_classes_bernoulli_KL_T1
+  kd_target: stopgrad_sigmoid_of_same_network_privileged_view
+  kd_normalizer: max(sum(privileged_probabilities), 1)
+  kd_weight: 0.5
+  total: (native_rgb_total + w_priv*native_priv_total + w_kd*batch_size*kd) / (1 +
+    w_priv)
+  loss_normalizer: 1 + w_priv
+  calibration: null
+  external_teacher: null
+  reference: null
+  ablation_arms:
+    PVC_AUG: deterministic_photometric_jitter_of_same_rgb_same_geometry_no_extra_information
+    PVC_ACTIVE: dense_KD_restricted_to_native_TAL_foreground_anchors
+    PVC_AUG_NOKD: PVC_AUG_view_and_privileged_native_loss_KD_weight_0
+    MV_AUG_IR: clean_rgb_plus_augmented_view_plus_paired_pixelmean_view
+    MV_AUG_SHUF: clean_rgb_plus_augmented_view_plus_shuffled_ir_pixelmean_view
+    MV_AUG_AUG: clean_rgb_plus_two_independent_augmented_views
+    MV_AUG_IR_GEO: clean_rgb_plus_augmented_view_plus_paired_pixelmean_view_geometry_kd_only
+    MV_AUG_IR_BOTH: clean_rgb_plus_augmented_view_plus_paired_pixelmean_view_score_and_geometry_kd
+    MV_AUG_AUG_GEO: clean_rgb_plus_two_independent_augmented_views_geometry_kd_from_second
+    MV_AUG_RAWIR_GEO: clean_rgb_plus_augmented_view_plus_raw_ir_view_geometry_kd_only
+    MV_AUG_SHUF_GEO: clean_rgb_plus_augmented_view_plus_shuffled_ir_pixelmean_view_geometry_kd_only
+    MV_AUG_IAF: clean_rgb_plus_augmented_view_plus_illumination_aware_fused_view
+    MV_AUG_RAWIR: clean_rgb_plus_augmented_view_plus_raw_ir_view
+    MIX_PVC: rgb_main_augmented_in_one_of_three_batches_as_RGBU_MIX_plus_clean_rgb_ir_pixelmean_view
+    PVC_AUGPAIR: clean_rgb_plus_pixelmean_view_of_jittered_rgb_and_ir
+    PVC_FULL: PVC_under_ultralytics_default_hsv_and_mosaic
+    AUG_FULL: PVC_AUG_under_ultralytics_default_hsv_and_mosaic
+    RAWIR_FULL: clean_rgb_plus_raw_ir_view_under_default_augmentation
+    SHUF_FULL: clean_rgb_plus_ir_shuffled_pixelmean_view_under_default_augmentation
+    IAF_FULL: clean_rgb_plus_illumination_aware_fused_view_under_default_augmentation
+    MV_FULL: MV_AUG_IR_under_default_augmentation
+    PVC_H: PVC_FULL_under_hsv_on_mosaic_off
+    AUG_H: AUG_FULL_under_hsv_on_mosaic_off
+    MV_H: MV_FULL_under_hsv_on_mosaic_off
+  multi_view_total: (native_rgb_total + w_priv*sum_v native_v_total + w_kd*batch_size*sum_v
+    kd_v) / (1 + n_views*w_priv)
+  multi_view_kd: per view dense Bernoulli KL(p_v || p_rgb) / max(sum p_v, 1); every
+    view detached; every privileged forward BN-restored
+  second_jitter: 'photometric_jitter seed salt 1000003: an independent draw of the
+    same jitter distribution'
+  box_or_dfl_kd: xm_geo_r1 geo arms only (geometry_kd)
+  feature_kd: false
+  region_or_difficulty_gate: false
+  geometry_kd: 'per geo view: KL(softmax(priv_dfl/T) || softmax(rgb_dfl/T)) * T^2,
+    mean over 4 box sides and over the RGB view native TAL foreground anchors; privileged
+    detached; class scores untouched'
+  geometry_weight: 1.0
+  geometry_temperature: 1.0
+  geometry_scale: batch_size * 1.5 (ultralytics DFL gain)
+  geometry_total: (native_rgb + w_priv*sum_v native_v + w_kd*b*sum_score_views kd_v
+    + w_geo*b*1.5*sum_geo_views geo_v) / (1 + n_views*w_priv)
+  raw_ir_view: strong_img itself, not averaged with RGB
+  iaf_view: 'w*rgb + (1-w)*ir, w = clamp(box31(max_c rgb) / 0.25, 0, 1): Retinex illumination
+    estimate decides RGB vs IR per pixel'
+  augpaired_view: (photometric_jitter(rgb) + ir) * 0.5 = paired view + the PVC_AUG
+    perturbation (jitter(rgb) - rgb) / 2
+  paired_clean_view: (clean rgb + ir) * 0.5; on a perturbed main step the clean rgb
+    is the pre-perturbation image
+  mix_main: 'single_view.prepare_batch (byte-identical to release_xm_single_r1): main
+    input is the PVC_AUG augmented view in one of each three batches (sha256 slot
+    schedule); BN restored after it and updated by one no-grad clean forward'
+  native_retained: true
+privileged_native_weight: 0.5
+kd_weight: 0.5

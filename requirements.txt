@@ -1,0 +1,6 @@
+# Pinned for the paper's main table. A CUDA 12.8 build of torch 2.10.0 is required.
+ultralytics==8.4.115
+torch==2.10.0
+torchvision
+numpy
+PyYAML
