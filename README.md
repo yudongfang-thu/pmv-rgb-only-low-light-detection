@@ -65,15 +65,16 @@ The repository does **not** ship images, labels, weights, or the internal data-c
 ## Training
 
 ```bash
+export PMV_CAMPAIGN="$(pwd)"          # campaign root; outputs go under $PMV_CAMPAIGN/runs
 cd release
 python train.py --config ../configs/night_MV_H_s42.schema.yaml \
-                --output $PMV_CAMPAIGN/night_MV_H_s42 --mode train
+                --output "$PMV_CAMPAIGN/runs/night_MV_H_s42" --mode train
 ```
 
-`PMV_CAMPAIGN` must be set to a writable directory (defaults to `<repo>/runs`); training refuses to
-write outside it. `configs/night_MV_H_s42.schema.yaml` is the configuration **schema**: it documents
-every field the trainer expects, but its data-contract paths and SHA256 values must be produced for your
-own copy of the data.
+`PMV_CAMPAIGN` defaults to the repository root; training refuses to write outside it, and the readout
+expects the run under `$PMV_CAMPAIGN/runs`. `configs/night_MV_H_s42.schema.yaml` is the configuration
+**schema**: it documents every field the trainer expects, but its data-contract paths and SHA256 values
+must be produced for your own copy of the data.
 
 ## Evaluation
 

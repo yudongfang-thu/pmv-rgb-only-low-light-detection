@@ -28,7 +28,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = Path(os.environ.get('PMV_ROOT', HERE.parent))
 PROJECT = Path(os.environ.get('PMV_PROJECT', ROOT))
 # Training outputs must stay under this directory (see README).
-CAMPAIGN = Path(os.environ.get('PMV_CAMPAIGN', ROOT / 'runs'))
+CAMPAIGN = Path(os.environ.get('PMV_CAMPAIGN', ROOT))
 REFERENCE = Path(os.environ.get('PMV_REFERENCE', ROOT / 'reference'))
 PYTHON = Path(os.environ.get('PMV_PYTHON', sys.executable))
 
