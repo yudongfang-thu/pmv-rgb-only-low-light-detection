@@ -1,10 +1,10 @@
-# PMV: Privileged Multi-View Learning for RGB-Only Nighttime Vehicle Detection
+# PMV: Privileged Multi-View Learning for RGB-Only Low-Light Vehicle Detection
 
 Training-time multimodal, deployment-time RGB-only object detection. Registered RGB--infrared pairs are
 used **only during training** to form privileged views over one shared-weight YOLO11n. At test time the
 deployed model is a plain RGB YOLO11n: one forward pass, no teacher, no extra latency.
 
-Paper: *Privileged Multi-View Learning for RGB-Only Nighttime Vehicle Detection* (AIEIT 2026, under review).
+Paper: *Privileged Multi-View Learning for RGB-Only Low-Light Vehicle Detection* (AIEIT 2026, under review).
 
 ## Method
 
@@ -101,7 +101,7 @@ The readout reports five-class mAP50-95, AP50, AP75 and the Night / Dark-night s
 
 ```bibtex
 @inproceedings{pmv2026,
-  title  = {Privileged Multi-View Learning for RGB-Only Nighttime Vehicle Detection},
+  title  = {Privileged Multi-View Learning for RGB-Only Low-Light Vehicle Detection},
   author = {Anonymous},
   booktitle = {AIEIT 2026},
   year   = {2026}
